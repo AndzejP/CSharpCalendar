@@ -12,7 +12,11 @@ namespace Calendar
         {
             List<Event> myEventList = new List<Event>();
             string owner = System.IO.File.ReadAllText(@"C:\Users\Starseal\Documents\GitHub\CSharpCalendar\owner.txt");
-            //while();
+
+            while (Console.ReadLine() != owner)
+            {
+                Console.WriteLine("You're not the owner, infidel!!!");
+            }
 
             Console.WriteLine("Input date (DD-MM-YYYY)");
             Date temp = new Date(Console.ReadLine());
@@ -30,9 +34,5 @@ namespace Calendar
         Console.WriteLine(temp);
         Console.WriteLine(temp2.description);
         }
-            
-
-
-
     }
 }
