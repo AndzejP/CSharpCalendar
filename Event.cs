@@ -1,9 +1,10 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.IO;
 
 namespace Calendar
 {
-    class Event
+    class Event : IComparable
     {
         static Rijndael myRijndael =  Rijndael.Create();
 
@@ -87,5 +88,15 @@ namespace Calendar
         }
 
 
+        public int CompareTo(object obj)
+        {
+            if (obj == null)
+                return 1;
+
+            Event eventObject =  obj as Event;
+            if (eventObject != null)
+                return this.date.Representation().CompareTo(eventObject.date.Representation());
+            else throw new ArgumentException("This is not an event");
+        }
     }
 }
