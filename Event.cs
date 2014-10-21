@@ -1,46 +1,44 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.IO;
 
 namespace Calendar
 {
-    [Serializable]
     class Event
     {
         static Rijndael myRijndael =  Rijndael.Create();
 
         public Date date;
-        private byte[] encrypted;
+        private byte[] _encrypted;
 
-        public string description
+        public string Description
         {
             get
             {
-                return DecryptStringFromBytes(encrypted, myRijndael.Key, myRijndael.IV);
+                return DecryptStringFromBytes(_encrypted, myRijndael.Key, myRijndael.IV);
             }
             set
             {
-                encrypted = EncryptStringToBytes(value, myRijndael.Key, myRijndael.IV);
+                _encrypted = EncryptStringToBytes(value, myRijndael.Key, myRijndael.IV);
             }
         }
         public Event (Date date, string description)
         {
             this.date = date;
-            this.description = description;
+            Description = description;
 
         }
         
 
-        static byte[] EncryptStringToBytes(string plainText, byte[] Key, byte[] IV)
+        static byte[] EncryptStringToBytes(string plainText, byte[] key, byte[] iv)
         {
             byte[] encryption;
 
             using (Rijndael rijAlg = Rijndael.Create())
             {
-                rijAlg.Key = Key;
-                rijAlg.IV = IV;
+                rijAlg.Key = key;
+                rijAlg.IV = iv;
 
-                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key,rijAlg.IV);
 
                 using (MemoryStream msEncrypt = new MemoryStream())
                 {
@@ -60,14 +58,14 @@ namespace Calendar
 
         }
 
-        static string DecryptStringFromBytes(byte[] cipherText, byte[] Key, byte[] IV)
+        static string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv)
         {
-            string plaintext = null;
+            string plaintext;
 
             using (Rijndael rijAlg = Rijndael.Create())
             {
-                rijAlg.Key = Key;
-                rijAlg.IV = IV;
+                rijAlg.Key = key;
+                rijAlg.IV = iv;
 
                 ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
  

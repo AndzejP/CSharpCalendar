@@ -5,7 +5,7 @@ namespace Calendar
     struct Date
     {
         int day, month, year;
-        public bool valid{ get; private set; }
+        public bool Valid{ get; private set; }
 
 
         public Date(string input) : this()
@@ -24,18 +24,18 @@ namespace Calendar
                 month = 0;
                 year = 0;
             }
-            validate();
+            Validate();
             
 
         }
 
-        private void validate()
+        private void Validate()
         {
 
             if (day > 31 || day < 1 || month < 1 || month > 12)
-                valid = false;
+                Valid = false;
             else if (day > 28 && month == 2 && year % 4 != 0)
-                valid = false;
+                Valid = false;
 
             else if (day == 31)
             {
@@ -46,20 +46,20 @@ namespace Calendar
                     case 6:
                     case 9:
                     case 11:
-                        valid = false;
+                        Valid = false;
                         break;
                     default:
-                        valid = true;
+                        Valid = true;
                         break;
                 }
             }
             else
-                valid = true;
+                Valid = true;
        }
 
         public override string ToString()
         {
-            return day.ToString() + "-" + month.ToString() + "-" + year.ToString();
+            return day + "-" + month + "-" + year;
         }
     }
 }
